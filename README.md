@@ -4,6 +4,8 @@ The landing page for the unconference. It is a static site built with [Astro](ht
 
 ## Editing the text
 
+**Contributors: start with [EDITING.md](EDITING.md).** It maps every piece of text on the page to the file and field that holds it, and walks through common edits.
+
 All wording on the page lives in seven files in `src/content/`. You do not need to touch any code.
 
 | File | What it controls |
