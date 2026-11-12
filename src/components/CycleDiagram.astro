@@ -1,0 +1,265 @@
+---
+// The three-pillar cycle: three nodes, six arrows (one per direction).
+// Arrows are drawn from the data in src/content/cycle.yaml, so editing an
+// arrow's headline there updates the caption shown here.
+type PillarId = 'neuro' | 'math' | 'ai';
+
+interface Props {
+  pillars: { id: PillarId; short: string; name: string }[];
+  arrows: { from: PillarId; to: PillarId; headline: string }[];
+  lede: string;
+}
+
+const { pillars, arrows, lede } = Astro.props;
+
+const W = 520;
+const H = 468;
+const R = 56;
+const pos: Record<PillarId, { x: number; y: number }> = {
+  neuro: { x: 260, y: 92 },
+  math: { x: 96, y: 372 },
+  ai: { x: 424, y: 372 },
+};
+const short = Object.fromEntries(pillars.map((p) => [p.id, p.short])) as Record<PillarId, string>;
+const round = (n: number) => Math.round(n * 10) / 10;
+
+// A curved path from one node to another. It bows to one side of the straight
+// line, so the two directions of a pair form a lens instead of overlapping.
+function arc(from: PillarId, to: PillarId) {
+  const p = pos[from];
+  const q = pos[to];
+  const dx = q.x - p.x;
+  const dy = q.y - p.y;
+  const len = Math.hypot(dx, dy);
+  const ux = dx / len;
+  const uy = dy / len;
+  const nx = uy;
+  const ny = -ux;
+  const offset = 14;
+  const bow = 46;
+  const sx = p.x + ux * (R + 12) + nx * offset;
+  const sy = p.y + uy * (R + 12) + ny * offset;
+  const ex = q.x - ux * (R + 20) + nx * offset;
+  const ey = q.y - uy * (R + 20) + ny * offset;
+  const cx = (p.x + q.x) / 2 + nx * bow;
+  const cy = (p.y + q.y) / 2 + ny * bow;
+  return `M${round(sx)} ${round(sy)} Q${round(cx)} ${round(cy)} ${round(ex)} ${round(ey)}`;
+}
+
+const drawn = arrows.map((a) => ({
+  ...a,
+  d: arc(a.from, a.to),
+  tag: `${short[a.from]} → ${short[a.to]}`,
+}));
+---
+
+<figure class="cycle" data-cycle>
+  <svg viewBox={`0 0 ${W} ${H}`} role="group" aria-label="The cycle of influence between the three fields">
+    <defs>
+      {
+        pillars.map((p) => (
+          <marker
+            id={`head-${p.id}`}
+            viewBox="0 0 10 10"
+            refX="6"
+            refY="5"
+            markerWidth="5.5"
+            markerHeight="5.5"
+            orient="auto"
+          >
+            <path d="M0 0.5 L10 5 L0 9.5 z" class={`head ${p.id}`} />
+          </marker>
+        ))
+      }
+    </defs>
+
+    {
+      drawn.map((a) => (
+        <g
+          class={`arrow ${a.from}`}
+          tabindex="0"
+          role="button"
+          aria-pressed="false"
+          aria-label={`${a.tag}: ${a.headline}`}
+          data-from={a.from}
+          data-tag={a.tag}
+          data-headline={a.headline}
+        >
+          <path class="arrow-hit" d={a.d} />
+          <path class="arrow-line" d={a.d} marker-end={`url(#head-${a.from})`} />
+          <path class="arrow-flow" d={a.d} />
+        </g>
+      ))
+    }
+
+    {
+      pillars.map((p) => (
+        <g class={`node ${p.id}`} transform={`translate(${pos[p.id].x} ${pos[p.id].y})`}>
+          <title>{p.name}</title>
+          <circle class="node-halo" r={R + 12} />
+          <circle class="node-disc" r={R} />
+          <text dy="0.02em">{p.short}</text>
+        </g>
+      ))
+    }
+  </svg>
+
+  <figcaption aria-live="polite">
+    <span class="tag" data-cycle-tag>The cycle</span>
+    <span class="caption-text" data-cycle-text>{lede}</span>
+  </figcaption>
+</figure>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-cycle]').forEach((root) => {
+    const tag = root.querySelector<HTMLElement>('[data-cycle-tag]');
+    const text = root.querySelector<HTMLElement>('[data-cycle-text]');
+    const arrows = root.querySelectorAll<SVGGElement>('.arrow');
+    if (!tag || !text) return;
+
+    function activate(arrow: SVGGElement) {
+      arrows.forEach((a) => {
+        const on = a === arrow;
+        a.classList.toggle('is-active', on);
+        a.setAttribute('aria-pressed', String(on));
+      });
+      root.dataset.active = arrow.dataset.from ?? '';
+      tag!.textContent = arrow.dataset.tag ?? '';
+      text!.textContent = arrow.dataset.headline ?? '';
+    }
+
+    arrows.forEach((arrow) => {
+      arrow.addEventListener('pointerenter', () => activate(arrow));
+      arrow.addEventListener('focus', () => activate(arrow));
+      arrow.addEventListener('click', () => activate(arrow));
+      arrow.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activate(arrow);
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .cycle {
+    position: relative;
+    isolation: isolate;
+    width: min(100%, 32rem);
+    margin-inline: auto;
+  }
+  /* Soft glow behind each node, in that pillar's color. */
+  .cycle::before {
+    content: '';
+    position: absolute;
+    inset: -6% -6% 12% -6%;
+    z-index: -1;
+    background:
+      radial-gradient(34% 34% at 50% 22%, color-mix(in srgb, var(--neuro) 22%, transparent), transparent),
+      radial-gradient(34% 34% at 20% 78%, color-mix(in srgb, var(--math) 22%, transparent), transparent),
+      radial-gradient(34% 34% at 80% 78%, color-mix(in srgb, var(--ai) 22%, transparent), transparent);
+    filter: blur(24px);
+    pointer-events: none;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .head {
+    fill: var(--c);
+  }
+
+  .arrow {
+    cursor: pointer;
+    outline: none;
+    transition: opacity 0.2s ease;
+  }
+  .arrow path {
+    fill: none;
+    stroke-linecap: round;
+  }
+  .arrow-hit {
+    stroke: transparent;
+    stroke-width: 30;
+    pointer-events: stroke;
+  }
+  .arrow-line {
+    stroke: var(--c);
+    stroke-width: 2;
+    opacity: 0.45;
+    transition:
+      opacity 0.2s ease,
+      stroke-width 0.2s ease;
+  }
+  .arrow-flow {
+    stroke: var(--c);
+    stroke-width: 4.5;
+    stroke-dasharray: 0.1 14;
+    animation: flow 2.6s linear infinite;
+  }
+  .cycle[data-active] .arrow:not(.is-active) {
+    opacity: 0.3;
+  }
+  .arrow.is-active .arrow-line {
+    opacity: 1;
+    stroke-width: 3;
+  }
+  .arrow:focus-visible .arrow-line {
+    opacity: 1;
+    stroke-width: 4;
+  }
+  @keyframes flow {
+    to {
+      stroke-dashoffset: -28.2;
+    }
+  }
+
+  .node-halo {
+    fill: var(--c);
+    opacity: 0.14;
+  }
+  .node-disc {
+    fill: var(--surface);
+    stroke: var(--c);
+    stroke-width: 2.5;
+  }
+  .node text {
+    font-family: var(--font-display);
+    font-size: 25px;
+    font-weight: 520;
+    letter-spacing: -0.01em;
+    fill: var(--ink);
+    text-anchor: middle;
+    dominant-baseline: central;
+  }
+
+  figcaption {
+    display: grid;
+    justify-items: center;
+    align-content: start;
+    gap: 0.35rem;
+    min-height: 4.6rem;
+    margin-top: 1rem;
+    text-align: center;
+  }
+  .cycle[data-active='neuro'] figcaption .tag {
+    color: var(--neuro-ink);
+  }
+  .cycle[data-active='math'] figcaption .tag {
+    color: var(--math-ink);
+  }
+  .cycle[data-active='ai'] figcaption .tag {
+    color: var(--ai-ink);
+  }
+  .caption-text {
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    line-height: 1.3;
+    max-width: 24rem;
+    text-wrap: balance;
+  }
+</style>

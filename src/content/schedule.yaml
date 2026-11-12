@@ -1,0 +1,38 @@
+# ─────────────────────────────────────────────────────────────
+# SCHEDULE: the evening hangout and the two days.
+# Add, remove, or reorder the lines under "items" freely.
+# ─────────────────────────────────────────────────────────────
+
+eyebrow: Schedule
+heading: An evening and two days
+lede: The outline below is provisional. The session grid is built from what participants propose.
+
+blocks:
+  - when: The evening before
+    title: Pre-conference hangout
+    items:
+      - Mixer with food, and name tags color-coded by pillar
+      - Cross-pillar speed-matching
+      - "Idea board: post session proposals and dot-vote"
+      - Vibe-coding trios can form early
+      - Organizers build the Day 1 session grid overnight
+
+  - when: Day 1
+    title: Map & share
+    items:
+      - Opening circle
+      - Three 10-minute provocations, one per arrow pair, each by a faculty–trainee pair
+      - Two rounds of cycle breakouts, with primers in parallel
+      - Lunch question tables
+      - Third breakout round
+      - Poster session and reception
+      - Session notes posted to the shared document
+
+  - when: Day 2
+    title: Build & commit
+    items:
+      - Recap and re-pitch of the most active threads
+      - Vibe-coding sprint, with a parallel breakout track for those not coding
+      - Lunch career panel
+      - "Working sessions: pilot project pitches, white-paper outline, resource plans"
+      - "Closing plenary: sprint demos, poster awards, team pitches, and commitments"

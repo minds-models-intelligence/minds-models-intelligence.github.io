@@ -1,0 +1,420 @@
+---
+// The landing page. All wording comes from the files in src/content/.
+// Edit those files to change the text; edit this file to change the layout.
+import { Image } from 'astro:assets';
+import { getEntry } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Brand from '../components/Brand.astro';
+import CycleDiagram from '../components/CycleDiagram.astro';
+import IslandDiagram from '../components/IslandDiagram.astro';
+import InterestButton from '../components/InterestButton.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+
+const event = (await getEntry('event', 'event'))!.data;
+const idea = (await getEntry('idea', 'idea'))!.data;
+const cycle = (await getEntry('cycle', 'cycle'))!.data;
+const format = (await getEntry('format', 'format'))!.data;
+const schedule = (await getEntry('schedule', 'schedule'))!.data;
+const { audience, deliverables } = (await getEntry('outcomes', 'outcomes'))!.data;
+const committee = (await getEntry('committee', 'committee'))!.data;
+
+// Title: plain for the browser tab, with *word* turned into italics on the page.
+const escapeHtml = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const titlePlain = event.title.replace(/\*/g, '');
+const titleHtml = escapeHtml(event.title).replace(/\*(.+?)\*/g, '<em>$1</em>');
+
+// Group the six arrows into the three pairs, keeping the pillars' own order.
+const short = Object.fromEntries(idea.pillars.map((p) => [p.id, p.short]));
+const pairs = (
+  [
+    ['ai', 'neuro'],
+    ['neuro', 'math'],
+    ['math', 'ai'],
+  ] as const
+).map(([a, b]) => ({
+  a,
+  b,
+  arrows: cycle.arrows.filter(
+    (x) => (x.from === a && x.to === b) || (x.from === b && x.to === a),
+  ),
+}));
+
+const nav = [
+  { href: '#idea', label: 'Idea' },
+  { href: '#cycle', label: 'Cycle' },
+  { href: '#format', label: 'Format' },
+  { href: '#schedule', label: 'Schedule' },
+  { href: '#outcomes', label: 'Outcomes' },
+  { href: '#committee', label: committee.heading },
+];
+---
+
+<Base title={`${titlePlain} · ${event.subtitle}`} description={event.intro.trim()}>
+  <header class="site-header">
+    <div class="wrap">
+      <Brand name={titlePlain} />
+      <nav class="site-nav" aria-label="Sections">
+        <ul>
+          {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <ThemeToggle />
+        <InterestButton {...event.interestForm} small />
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <div class="wrap">
+        <div class="hero-text">
+          <h1 set:html={titleHtml} />
+          <div class="tricolor" aria-hidden="true">
+            <i class="neuro"></i><i class="math"></i><i class="ai"></i>
+          </div>
+          <p class="hero-subtitle">{event.subtitle}</p>
+          <p class="hero-intro">{event.intro}</p>
+          <div class="hero-actions">
+            <InterestButton {...event.interestForm} />
+            <a class="link-arrow" href="#format">See how it works ↓</a>
+          </div>
+          <dl class="facts">
+            {
+              event.facts.map((fact) => (
+                <div>
+                  <dt class="eyebrow">{fact.label}</dt>
+                  <dd>
+                    <span class="value">{fact.value}</span>
+                    {fact.note && <span class="note">{fact.note}</span>}
+                  </dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+        <CycleDiagram pillars={idea.pillars} arrows={cycle.arrows} lede={cycle.lede} />
+        {
+          event.partners && (
+            <div class="partners">
+              <p class="eyebrow">{event.partners.heading}</p>
+              <ul>
+                {event.partners.items.map((item) => (
+                  <li>
+                    {item.url ? (
+                      <a href={item.url} target="_blank" rel="noopener">
+                        {item.name}
+                        <span aria-hidden="true">↗</span>
+                      </a>
+                    ) : (
+                      <span>{item.name}</span>
+                    )}
+                  </li>
+                ))}
+                {event.partners.note && <li class="more">{event.partners.note}</li>}
+              </ul>
+            </div>
+          )
+        }
+      </div>
+    </section>
+
+    <section class="section" id="idea">
+      <div class="wrap">
+        <div class="idea-top">
+          <div class="section-head">
+            <p class="eyebrow">{idea.eyebrow}</p>
+            <h2 class="visually-hidden">{idea.heading}</h2>
+            <p class="question">{idea.question}</p>
+          </div>
+          <p class="lede">{idea.text}</p>
+        </div>
+
+        <ul class="pillars">
+          {
+            idea.pillars.map((pillar) => (
+              <li class={`pillar ${pillar.id}`}>
+                {pillar.tagline && <p class="tag">{pillar.tagline}</p>}
+                <h3>{pillar.name}</h3>
+                <ul>
+                  {pillar.topics.map((topic) => <li>{topic}</li>)}
+                </ul>
+              </li>
+            ))
+          }
+        </ul>
+
+        <div class="goals">
+          <p class="eyebrow">{idea.goalsHeading}</p>
+          <ol>
+            {
+              idea.goals.map((goal) => (
+                <li>
+                  <h3>{goal.name}</h3>
+                  <p>{goal.text}</p>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="cycle">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{cycle.eyebrow}</p>
+          <h2>{cycle.heading}</h2>
+          <p class="lede">{cycle.lede}</p>
+        </div>
+        <div class="pairs">
+          {
+            pairs.map((pair) => (
+              <article class="pair">
+                <h3 class="pair-title">
+                  <span class={`dot ${pair.a}`} />
+                  {short[pair.a]}
+                  <span class="swap" aria-label="and">⇄</span>
+                  {short[pair.b]}
+                  <span class={`dot ${pair.b}`} />
+                </h3>
+                <ul>
+                  {pair.arrows.map((arrow) => (
+                    <li class={arrow.from}>
+                      <p class="tag">
+                        {short[arrow.from]} → {short[arrow.to]}
+                      </p>
+                      <h4>{arrow.headline}</h4>
+                      <p>{arrow.text}</p>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="format">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{format.eyebrow}</p>
+          <h2>{format.heading}</h2>
+          <p class="lede">{format.lede}</p>
+        </div>
+
+        <dl class="principles">
+          {
+            format.principles.map((principle) => (
+              <div>
+                <dt>{principle.name}</dt>
+                <dd>{principle.text}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        <div class="clusters">
+          {
+            format.clusters.map((cluster) => {
+              const labelled = cluster.points.some((point) => point.label);
+              return (
+                <article class="cluster">
+                  <div class="cluster-id">
+                    <span class="cluster-letter" aria-hidden="true">
+                      {cluster.letter}
+                    </span>
+                    <h3>{cluster.name}</h3>
+                    <p class="tag">
+                      <b>{cluster.mode}</b> · {cluster.detail}
+                    </p>
+                  </div>
+                  <div class="cluster-body">
+                    <p>{cluster.summary}</p>
+                    {cluster.pointsTitle && <p class="eyebrow points-title">{cluster.pointsTitle}</p>}
+                    {cluster.points.length > 0 && (
+                      <ul class:list={['points', labelled ? 'labelled' : 'plain']}>
+                        {cluster.points.map((point) => (
+                          <li>
+                            {point.label && <b>{point.label}</b>}
+                            <span>{point.text}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {cluster.organization && (
+                      <div class="organization">
+                        <h4>{cluster.organization.title}</h4>
+                        <p>{cluster.organization.intro}</p>
+                        <IslandDiagram {...cluster.organization.diagram} />
+                        <ul class="points labelled">
+                          {cluster.organization.roles.map((role) => (
+                            <li>
+                              <b>{role.label}</b>
+                              <span>{role.text}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        {cluster.organization.closing && (
+                          <p class="organization-closing">{cluster.organization.closing}</p>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="schedule">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{schedule.eyebrow}</p>
+          <h2>{schedule.heading}</h2>
+          <p class="lede">{schedule.lede}</p>
+        </div>
+        <div class="schedule">
+          {
+            schedule.blocks.map((block) => (
+              <article class="block">
+                <p class="eyebrow">{block.when}</p>
+                <h3>{block.title}</h3>
+                <ol>
+                  {block.items.map((item) => <li>{item}</li>)}
+                </ol>
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="audience">
+      <div class="wrap audience">
+        <div>
+          <div class="section-head">
+            <p class="eyebrow">{audience.eyebrow}</p>
+            <h2>{audience.heading}</h2>
+          </div>
+          <p class="lede">{audience.text}</p>
+          <ul class="balance" aria-label="The three pillars, in equal parts">
+            {idea.pillars.map((pillar) => <li class={pillar.id}>{pillar.short}</li>)}
+          </ul>
+        </div>
+        <div class="ask">
+          <p class="eyebrow">{audience.registrationHeading}</p>
+          <ol>
+            {audience.registration.map((item) => <li>{item}</li>)}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="outcomes">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{deliverables.eyebrow}</p>
+          <h2>{deliverables.heading}</h2>
+          <p class="lede">{deliverables.lede}</p>
+        </div>
+        <ol class="outcomes">
+          {
+            deliverables.items.map((item) => (
+              <li>
+                <div>
+                  <h3>{item.name}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <section class="section" id="committee">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">{committee.eyebrow}</p>
+          <h2>{committee.heading}</h2>
+        </div>
+        <ul class="people">
+          {
+            committee.members.map((person) => (
+              <li>
+                {person.url ? (
+                  <a class="person" href={person.url} target="_blank" rel="noopener">
+                    {person.photo ? (
+                      <Image
+                        class="person-photo"
+                        src={person.photo}
+                        alt=""
+                        width={240}
+                        height={240}
+                        fit="cover"
+                        position="top"
+                      />
+                    ) : (
+                      <span class="person-photo empty" aria-hidden="true" />
+                    )}
+                    <span class="tag">{person.affiliation}</span>
+                    <span class="person-name">{person.name}</span>
+                    <span class="person-arrow" aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <div class="person">
+                    {person.photo ? (
+                      <Image
+                        class="person-photo"
+                        src={person.photo}
+                        alt=""
+                        width={240}
+                        height={240}
+                        fit="cover"
+                        position="top"
+                      />
+                    ) : (
+                      <span class="person-photo empty" aria-hidden="true" />
+                    )}
+                    <span class="tag">{person.affiliation}</span>
+                    <span class="person-name">{person.name}</span>
+                  </div>
+                )}
+              </li>
+            ))
+          }
+          {
+            committee.note && (
+              <li class="person more">
+                <span class="person-photo empty" aria-hidden="true" />
+                <span class="person-name">{committee.note}</span>
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </section>
+
+    <section class="cta" id="updates">
+      <div class="wrap">
+        <div class="cta-box">
+          <h2>{event.callToAction.heading}</h2>
+          <p>{event.callToAction.text}</p>
+          <InterestButton {...event.interestForm} />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <Brand name={titlePlain} />
+      <p>{event.status}</p>
+    </div>
+  </footer>
+</Base>

@@ -1,0 +1,102 @@
+---
+// Three-way theme switch: follow the device (default), or force light or dark.
+// The choice is remembered in the visitor's browser. The script in
+// layouts/Base.astro applies it before the page paints.
+---
+
+<div class="theme-toggle" role="group" aria-label="Color theme">
+  <button type="button" data-theme-choice="auto" aria-pressed="true" title="Match device">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <rect x="3" y="4.5" width="18" height="12" rx="2"></rect>
+      <path d="M8.5 20.5h7M12 16.5v4"></path>
+    </svg>
+    <span class="visually-hidden">Match device</span>
+  </button>
+  <button type="button" data-theme-choice="light" aria-pressed="false" title="Light">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path
+        d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"
+      ></path>
+    </svg>
+    <span class="visually-hidden">Light</span>
+  </button>
+  <button type="button" data-theme-choice="dark" aria-pressed="false" title="Dark">
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+      <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"></path>
+    </svg>
+    <span class="visually-hidden">Dark</span>
+  </button>
+</div>
+
+<script>
+  const root = document.documentElement;
+  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-choice]');
+
+  function current(): string {
+    const t = root.getAttribute('data-theme');
+    return t === 'light' || t === 'dark' ? t : 'auto';
+  }
+
+  function sync() {
+    const active = current();
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.themeChoice === active)));
+  }
+
+  buttons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const choice = button.dataset.themeChoice;
+      if (choice === 'light' || choice === 'dark') {
+        root.setAttribute('data-theme', choice);
+      } else {
+        root.removeAttribute('data-theme');
+      }
+      try {
+        if (choice === 'light' || choice === 'dark') localStorage.setItem('theme', choice);
+        else localStorage.removeItem('theme');
+      } catch {
+        // Storage can be blocked (private windows); the choice then lasts for this visit only.
+      }
+      sync();
+    });
+  });
+
+  sync();
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    padding: 3px;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  button {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    padding: 0;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+  }
+  button:hover {
+    color: var(--ink);
+  }
+  button[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  svg {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>

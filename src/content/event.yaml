@@ -1,0 +1,65 @@
+# ─────────────────────────────────────────────────────────────
+# EVENT BASICS: name, dates, venue, and the main button.
+# Edit the text after each colon. Keep the indentation as it is.
+# ─────────────────────────────────────────────────────────────
+
+# Words between *asterisks* are shown in italics.
+title: "It’s a *Complex* World"
+subtitle: "A Harvard Unconference on Neuroscience, Applied Mathematics, and Artificial Intelligence"
+
+# One short paragraph shown under the title.
+intro: >
+  Two days, opened by an evening hangout, for Harvard faculty, postdoctoral
+  fellows, and graduate students in neuroscience, applied mathematics, and AI.
+  Participants set much of the agenda on site.
+
+# The three facts shown in the hero. Update "value" and "note" once confirmed.
+facts:
+  - label: When
+    value: "April 2027"
+    note: Exact dates to be announced
+  - label: Where
+    value: Harvard campus
+    note: Venue to be announced
+  - label: Who
+    value: About 100 participants
+    note: Faculty, fellows, and graduate students
+
+# Partnering institutes, shown as a strip under the facts.
+# To add an institute, copy two lines (name, url) and edit them. "url" is
+# optional. "note" is the last, dashed entry; delete the "note" line once the
+# list is complete.
+partners:
+  heading: Confirmed partnering institutes
+  items:
+    - name: Mind, Brain and Behavior
+      url: https://mbb.harvard.edu/
+    - name: Center of Mathematical Sciences and Applications
+      url: https://cmsa.fas.harvard.edu/
+    - name: Harvard Data Science Initiative
+      url: https://datascience.harvard.edu/
+    - name: Kempner Institute
+      url: https://kempnerinstitute.harvard.edu/
+    - name: School of Engineering and Applied Sciences
+      url: https://seas.harvard.edu/
+    - name: HMS Program in Neuroscience
+      url: https://pinphd.hms.harvard.edu/
+  note: More institutes joining
+
+# The main button. Paste the form link between the quotes of "url".
+# While "url" is empty, the site shows "pendingLabel" instead of a button.
+interestForm:
+  url: ""
+  label: Get updates
+  pendingLabel: Interest form opening soon
+
+# Closing call to action near the bottom of the page.
+callToAction:
+  heading: Want to join?
+  text: >
+    If you would like to join the organizing committee, please email to any of the current organizers. Registration is not open yet. Leave your details and we will write to you
+    when dates, venue, and registration are confirmed.
+
+# Small print in the footer.
+status: >
+  This event is at the proposal stage. Dates, venue, and program details may change.

@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────────────────
+# THE CYCLE OF INFLUENCE: the six arrows between the pillars.
+# "from" and "to" must each be one of: neuro, math, ai.
+# ─────────────────────────────────────────────────────────────
+
+eyebrow: Rationale
+heading: A cycle of influence
+lede: Each field feeds the next, and each arrow also runs in reverse.
+
+arrows:
+  - from: ai
+    to: neuro
+    headline: AI tools feed neuroscience
+    text: Models and LLMs for analyzing neural and behavioral data.
+  - from: neuro
+    to: ai
+    headline: Neuroscience inspires AI
+    text: >
+      Neural circuits, learning rules, attention, memory, and dopamine-based
+      reward learning inspire new architectures and algorithms.
+  - from: neuro
+    to: math
+    headline: Neuroscience inspires mathematics
+    text: >
+      Brain and behavior raise new questions in network theory, inference, and dynamics.
+  - from: math
+    to: neuro
+    headline: Mathematics feeds neuroscience
+    text: >
+      Graph theory, Bayesian inference, game theory, and dynamical systems
+      give the tools to map connectomes, model perception and decisions, and
+      describe neural activity.
+  - from: math
+    to: ai
+    headline: Mathematics inspires AI
+    text: Theory that explains and improves learning systems.
+  - from: ai
+    to: math
+    headline: AI solves mathematics problems
+    text: >
+      Deep networks and LLMs raise new theoretical puzzles, such as why huge
+      models generalize, how training unfolds, and what transformers can
+      compute. AI tools now also help with proofs.

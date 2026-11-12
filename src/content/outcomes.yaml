@@ -1,0 +1,38 @@
+# ─────────────────────────────────────────────────────────────
+# WHO IT IS FOR and WHAT COMES OUT OF IT.
+# ─────────────────────────────────────────────────────────────
+
+audience:
+  eyebrow: Who it is for
+  heading: A balanced room
+  text: >
+    About 100 on-campus participants, drawn roughly equally from the three
+    pillars and balanced across faculty, fellows, and graduate students.
+  registrationHeading: Registration will ask for
+  registration:
+    - Your pillar or pillars
+    - One question you want to discuss
+    - Whether you want to present a poster or join the sprint
+
+deliverables:
+  eyebrow: Outcomes
+  heading: What we leave with
+  lede: Each activity is designed to produce something that lasts beyond the two days.
+  items:
+    - name: Seed collaborations
+      text: >
+        Cross-pillar teams formed on Day 2, each with a one-page pilot pitch
+        and encouraged to apply for internal seed funding.
+    - name: Shared resources
+      text: >
+        An open repository with the sprint prototypes, starter code and
+        notebooks, primer materials, curated datasets, a digital poster
+        gallery, and a living “open problems” list.
+    - name: White paper
+      text: >
+        A co-authored perspective on the open questions for each arrow of the
+        cycle, drafted by volunteer writing leads after the event.
+    - name: Ongoing community
+      text: >
+        A monthly trainee-led seminar or hack night, a shared communication
+        channel, and a plan to make the unconference a recurring event.

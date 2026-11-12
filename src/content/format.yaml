@@ -1,0 +1,148 @@
+# ─────────────────────────────────────────────────────────────
+# FORMAT: how the unconference works and its activity clusters.
+# Each cluster has a letter, a name, a short "mode" tag, a summary,
+# and an optional list of points. A point may have a "label", and the
+# list may have a "pointsTitle" shown above it.
+# ─────────────────────────────────────────────────────────────
+
+eyebrow: Format
+heading: You set the agenda
+lede: >
+  Structured clusters anchor the event, and the unconference fills them in.
+  Topics for the breakouts come from the idea board at the hangout.
+
+principles:
+  - name: Open space
+    text: Sessions run as parallel rounds, proposed and voted on by participants.
+  - name: The law of two feet
+    text: Move to wherever you learn or contribute most.
+  - name: Conveners and note-takers
+    text: >
+      Every session has both, and conveners are encouraged to mix at least two
+      pillars. Notes go into a shared online document.
+
+clusters:
+  - letter: A
+    name: Cycle breakouts
+    mode: Discuss
+    detail: Open space
+    summary: Open-space discussions along each pair of arrows in the cycle.
+    points:
+      - label: AI ⇄ Neuro
+        text: >
+          ML and LLMs as tools to analyze neural and behavioral data; trained
+          RNNs as hypotheses for cortical computation; brain-inspired
+          architectures and learning rules.
+      - label: Neuro ⇄ Math
+        text: >
+          Connectomes as graphs; the “Bayesian brain” and perception under
+          uncertainty; game theory of social behavior; neural population
+          activity as a dynamical system.
+      - label: Math ⇄ AI
+        text: >
+          Dynamical-systems views of training and RNNs; Bayesian deep learning
+          and uncertainty; graph neural networks; theory for mechanistic
+          interpretability of LLMs.
+
+  - letter: B
+    name: Vibe-coding sprint
+    mode: Build
+    detail: About 3 hours
+    summary: >
+      Mixed trios, one person per pillar, use AI coding assistants to build a
+      working prototype. Mentors from each pillar float between teams, every
+      team gives a 3-minute demo at the close, and all code goes to the shared
+      repository.
+    pointsTitle: Starter challenges
+    points:
+      - text: Train an RNN on a cognitive task and compare it with neural recordings.
+      - text: Fit a Bayesian observer model to behavioral data.
+      - text: Analyze a connectome with graph tools.
+      - text: Simulate game-theoretic agents with LLMs.
+    # How a sprint group organizes itself. The "diagram" labels are the words
+    # drawn in the picture; "roles" is the explanation listed under it.
+    organization:
+      title: How a sprint group is organized
+      intro: >
+        A group can build anything related to the unconference. To show how
+        the process works, we use one running example: building a virtual car.
+        A car needs expertise in several domains, such as wheel design, engine
+        development, lighting, seating, and body design.
+      diagram:
+        islands: [Wheels, Engine, Lighting, Seating, Body]
+        contributors: Contributors
+        mayor: Mayor
+        president: President
+        agents: AI agents
+        product: Virtual car
+        steps:
+          report: Mayors work with
+          coordinate: who coordinates
+          build: which build the
+      roles:
+        - label: Islands
+          text: >
+            Each domain gets its own island: a team that works on one part of
+            the project.
+        - label: Contributors
+          text: >
+            The residents of an island. They generate ideas, give input, and
+            develop solutions in their area of expertise, then pass them to
+            their Mayor.
+        - label: Mayor
+          text: >
+            One per island. The Mayor consolidates and coordinates the
+            island's work.
+        - label: President
+          text: >
+            Oversees the whole session. The President works with all the
+            Mayors and coordinates the AI agents that bring the virtual car to
+            life.
+      closing: >
+        The structure is hierarchical yet collaborative: specialized teams
+        work independently while staying coordinated toward a shared objective.
+
+  - letter: C
+    name: Cross-pillar poster session
+    mode: Share
+    detail: Graduate students
+    summary: >
+      Graduate students from all three departments present posters, held with
+      a reception.
+    points:
+      - label: Arrow tags
+        text: Each poster shows the direction it feeds, for example AI → Neuro.
+      - label: Ask / Offer cards
+        text: Each presenter lists what they need and what they can offer.
+      - label: Awards
+        text: Participants vote for the best cross-pillar connection.
+
+  - letter: D
+    name: Cross-training primers
+    mode: Learn
+    detail: 30 minutes each
+    summary: Short hands-on tutorials run by fellows and advanced students.
+    pointsTitle: Example primers
+    points:
+      - text: Dynamical systems in 30 minutes
+      - text: Neuroscience for ML people
+      - text: LLMs under the hood
+      - text: Bayesian inference, hands-on
+      - text: Graph theory for networks
+
+  - letter: E
+    name: Connection activities
+    mode: Connect
+    detail: Throughout
+    summary: Structured ways to meet people outside your own field.
+    points:
+      - label: Speed-matching
+        text: Five-minute cross-pillar pairings.
+      - label: Question tables
+        text: Lunch tables, each hosted around one open problem.
+      - label: Tool and dataset petting zoo
+        text: Live demos you can try yourself.
+      - label: Career panel
+        text: Faculty and trainees on interdisciplinary careers.
+      - label: Grand challenges wall
+        text: A whiteboard wall that feeds the white paper.

@@ -1,0 +1,33 @@
+# ─────────────────────────────────────────────────────────────
+# ORGANIZING COMMITTEE: the people listed in the committee section.
+# "heading" is also the label of the link in the top ribbon.
+# To add a person, copy four lines (name, affiliation, url, photo) and edit them.
+# "url" is optional: leave the line out for someone without a web page.
+# "photo" is optional: put the picture in src/assets/people/ and write its
+# file name after "../assets/people/". Any size works; it is cropped to a
+# circle from the top, so a head-and-shoulders portrait looks best.
+# "note" is the last, dashed entry; delete the line once the list is complete.
+# ─────────────────────────────────────────────────────────────
+
+eyebrow: People
+heading: Organizing Committee
+
+members:
+  - name: Yilun Du
+    affiliation: SEAS
+    url: https://seas.harvard.edu/person/yilun-du
+    photo: ../assets/people/yilun-du.png
+  - name: Souvik Mandal
+    affiliation: FAS
+    url: https://souvikmandal.info
+    photo: ../assets/people/souvik-mandal.jpg
+  - name: Qianqian Wang
+    affiliation: SEAS
+    url: https://seas.harvard.edu/person/qianqian-wang
+    photo: ../assets/people/qianqian-wang.jpeg
+  - name: Walid Yassin
+    affiliation: HMS
+    url: https://www.iq.harvard.edu/people/walid-yassin
+    photo: ../assets/people/walid-yassin.jpeg
+
+note: You?

@@ -1,0 +1,52 @@
+# Publishes the website to GitHub Pages.
+# Runs every time a change lands on the "main" branch, and can also be started
+# by hand from the repository's Actions tab ("Run workflow").
+name: Publish website
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# If two changes land close together, finish publishing the first, then publish the latest.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Read the site address from GitHub Pages
+        id: pages
+        uses: actions/configure-pages@v6
+      # The address and sub-folder come from the Pages settings, so the build
+      # keeps working if the site later moves to a custom domain.
+      - name: Build the site
+        run: npx astro build --site "${{ steps.pages.outputs.origin }}" --base "${{ steps.pages.outputs.base_path }}/"
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publish to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5

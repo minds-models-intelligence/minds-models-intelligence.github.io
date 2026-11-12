@@ -1,0 +1,24 @@
+---
+// The main button. It links to the interest form once a link is set in
+// src/content/event.yaml, and shows a "coming soon" label until then.
+interface Props {
+  url: string;
+  label: string;
+  pendingLabel: string;
+  small?: boolean;
+}
+
+const { url, label, pendingLabel, small = false } = Astro.props;
+const size = small ? 'btn-sm' : '';
+---
+
+{
+  url ? (
+    <a class:list={['btn', 'btn-primary', size]} href={url} target="_blank" rel="noopener">
+      {label}
+      <span aria-hidden="true">↗</span>
+    </a>
+  ) : (
+    <span class:list={['btn', 'btn-pending', size]}>{pendingLabel}</span>
+  )
+}

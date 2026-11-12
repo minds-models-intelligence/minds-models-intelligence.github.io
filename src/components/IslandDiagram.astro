@@ -1,0 +1,164 @@
+---
+// The island structure of the vibe-coding sprint, drawn from the labels in
+// src/content/format.yaml: Contributors -> Mayor (one per island) -> President
+// -> AI agents -> the thing being built.
+interface Props {
+  islands: string[];
+  contributors: string;
+  mayor: string;
+  president: string;
+  agents: string;
+  product: string;
+  steps: { report: string; coordinate: string; build: string };
+}
+
+const { islands, contributors, mayor, president, agents, product, steps } = Astro.props;
+const summary = `${islands.length} islands (${islands.join(', ')}), each with ${contributors.toLowerCase()} and a ${mayor.toLowerCase()}. The ${mayor.toLowerCase()}s work with the ${president}, who coordinates the ${agents} that build the ${product.toLowerCase()}.`;
+---
+
+<figure class="islands" role="img" aria-label={summary}>
+  <ul class="island-row" aria-hidden="true">
+    {
+      islands.map((island) => (
+        <li class="island">
+          <span class="island-name">{island}</span>
+          <span class="residents">
+            <i /><i /><i />
+          </span>
+          <span class="role-label">{contributors}</span>
+          <span class="stem" />
+          <span class="mayor">{mayor}</span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <div class="chain" aria-hidden="true">
+    <span class="step">{steps.report}</span>
+    <span class="node president">{president}</span>
+    <span class="step">{steps.coordinate}</span>
+    <span class="node agents">{agents}</span>
+    <span class="step">{steps.build}</span>
+    <span class="node product">{product}</span>
+  </div>
+</figure>
+
+<style>
+  .islands {
+    margin-top: 1.25rem;
+    padding: clamp(1rem, 3vw, 1.5rem);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+  }
+
+  .island-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(6.25rem, 1fr));
+    gap: 0.6rem;
+  }
+  .island {
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    padding: 0.85rem 0.5rem 0.75rem;
+    background: var(--surface-2);
+    /* An uneven radius, so each team reads as an island and not a box. */
+    border-radius: 46% 54% 50% 50% / 26% 24% 30% 28%;
+    text-align: center;
+  }
+  .island-name {
+    font-family: var(--font-display);
+    font-size: 1.0625rem;
+    font-weight: 560;
+    line-height: 1.2;
+  }
+  .residents {
+    display: flex;
+    gap: 4px;
+    margin-top: 0.2rem;
+  }
+  .residents i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--muted);
+  }
+  .role-label,
+  .step {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stem {
+    width: 1px;
+    height: 0.6rem;
+    background: var(--muted);
+  }
+  .mayor {
+    padding: 0.2rem 0.65rem;
+    border: 1.5px solid var(--ink);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.3;
+    background: var(--surface);
+  }
+
+  .chain {
+    display: grid;
+    justify-items: center;
+    gap: 0.4rem;
+    margin-top: 0.5rem;
+  }
+  /* Each step label sits on a short downward arrow. */
+  .step {
+    display: grid;
+    justify-items: center;
+    gap: 0.3rem;
+    text-align: center;
+  }
+  .step::before,
+  .step::after {
+    content: '';
+    width: 1px;
+    height: 0.7rem;
+    background: var(--muted);
+  }
+  .step::after {
+    width: 7px;
+    height: 7px;
+    background: none;
+    border-right: 1.5px solid var(--muted);
+    border-bottom: 1.5px solid var(--muted);
+    transform: translateY(-5px) rotate(45deg);
+  }
+  .node {
+    padding: 0.5rem 1.25rem;
+    border-radius: 999px;
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: center;
+  }
+  .president {
+    background: var(--ink);
+    color: var(--bg);
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 520;
+  }
+  .agents {
+    border: 1.5px dashed var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+  .product {
+    border: 1.5px solid var(--ink);
+    font-family: var(--font-display);
+    font-size: 1.1875rem;
+    font-weight: 520;
+  }
+</style>

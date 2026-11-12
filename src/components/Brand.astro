@@ -1,0 +1,17 @@
+---
+interface Props {
+  name: string;
+  href?: string;
+}
+const { name, href = '#top' } = Astro.props;
+---
+
+<a class="brand" href={href}>
+  <svg viewBox="0 0 32 32" width="22" height="22" aria-hidden="true">
+    <path d="M16 8 7 24h18z" fill="none" stroke="var(--muted)" stroke-width="1.5"></path>
+    <circle cx="16" cy="8" r="5.5" fill="var(--neuro)"></circle>
+    <circle cx="7" cy="24" r="5.5" fill="var(--math)"></circle>
+    <circle cx="25" cy="24" r="5.5" fill="var(--ai)"></circle>
+  </svg>
+  <span>{name}</span>
+</a>

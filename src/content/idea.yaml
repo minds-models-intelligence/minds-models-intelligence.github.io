@@ -1,0 +1,58 @@
+# ─────────────────────────────────────────────────────────────
+# THE IDEA: the shared question, the three pillars, and the goals.
+# ─────────────────────────────────────────────────────────────
+
+eyebrow: The idea
+heading: Three fields. One question.
+question: How do complex systems learn, represent, and act?
+text: >
+  Neuroscience, applied mathematics, and artificial intelligence increasingly
+  ask the same question, but they rarely meet in the same room. This
+  unconference puts them there, and lets the people in the room decide what
+  to talk about and what to build.
+
+# The three pillars. Do not change the "id" values (neuro, math, ai):
+# the colors and the cycle diagram depend on them.
+pillars:
+  - id: neuro
+    short: Neuro
+    name: Neuroscience
+    tagline: Brain, mind & behavior
+    topics:
+      - Neural circuits and population coding
+      - Cognition, memory, decision-making, and learning
+      - Neural recordings, imaging, and connectomics data
+  - id: math
+    short: Math
+    name: Applied Mathematics
+    tagline: Structure, inference & dynamics
+    topics:
+      - Graph theory
+      - Bayesian inference
+      - Game theory
+      - Dynamical systems theory
+      - Optimization and information theory
+  - id: ai
+    short: AI
+    name: Artificial Intelligence
+    tagline: Learning systems & agents
+    topics:
+      - Machine learning
+      - Recurrent neural networks (RNNs)
+      - Large language models (LLMs) and interpretability
+      - Reinforcement learning and agents
+
+goalsHeading: What we are here to do
+goals:
+  - name: Connect
+    text: >
+      Build relationships across the three pillars and career stages, with
+      graduate students and fellows as active conveners.
+  - name: Define
+    text: >
+      Identify the most important open problems that need all three
+      perspectives, stated clearly enough to act on.
+  - name: Build
+    text: >
+      Launch collaborations, working prototypes, and shared resources that
+      lower the barrier to crossing disciplines.
