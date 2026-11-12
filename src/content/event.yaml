@@ -22,8 +22,8 @@ facts:
     value: Harvard campus
     note: Venue to be announced
   - label: Who
-    value: About 100 participants
-    note: Faculty, fellows, and graduate students
+    value: Faculty, fellows, technical staff, and graduate students
+    note: from all over Harvard
 
 # Partnering institutes, shown as a strip under the facts.
 # To add an institute, copy two lines (name, url) and edit them. "url" is
