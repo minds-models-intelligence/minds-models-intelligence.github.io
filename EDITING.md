@@ -1,6 +1,6 @@
 # Editing the website
 
-Live site: https://souvik-mandal-harvard.github.io/harvard-unconf-2027/
+Live site: https://minds-models-intelligence.github.io/
 
 Every word on the site lives in seven plain-text files in [`src/content/`](src/content/). You change the text in a file, save it to GitHub, and the site updates itself about a minute later. No coding is involved.
 
