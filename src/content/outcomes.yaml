@@ -4,10 +4,11 @@
 
 audience:
   eyebrow: Who it is for
-  heading: A balanced room
+  heading: Across fields and sectors
   text: >
-    About 100 on-campus participants, drawn roughly equally from the three
-    pillars and balanced across faculty, fellows, and graduate students.
+    Faculty, postdoctoral fellows, technical staff, and graduate students from
+    across Harvard, in neuroscience, applied mathematics, and AI, joined by
+    guests from industry who bring the problems they are working on.
   registrationHeading: Registration will ask for
   registration:
     - Your pillar or pillars

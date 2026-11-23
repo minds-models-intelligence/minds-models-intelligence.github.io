@@ -9,8 +9,9 @@ subtitle: "A Harvard Unconference on Neuroscience, Applied Mathematics, and Arti
 
 # One short paragraph shown under the title.
 intro: >
-  Two days, opened by an evening hangout, for Harvard faculty, postdoctoral
-  fellows, and graduate students in neuroscience, applied mathematics, and AI.
+  Two days, opened by an evening hangout, for faculty, postdoctoral fellows,
+  technical staff, and graduate students from across Harvard, joined by guests
+  from industry, working in neuroscience, applied mathematics, and AI.
   Participants set much of the agenda on site.
 
 # The three facts shown in the hero. Update "value" and "note" once confirmed.
@@ -22,8 +23,13 @@ facts:
     value: Harvard campus
     note: Venue to be announced
   - label: Who
-    value: Faculty, fellows, technical staff, and graduate students
-    note: from all over Harvard
+    value: Academics & Industry
+    note: >
+      Faculty, fellows, technical staff, and graduate students from across
+      Harvard. Industry guests are invited to share the problems they are
+      working on, or thinking of working on, in these areas, and to draw on
+      Harvard's intellectual capital, with the prospect of long-term
+      collaboration.
 
 # Partnering institutes, shown as a strip under the facts.
 # To add an institute, copy two lines (name, url) and edit them. "url" is
