@@ -16,12 +16,6 @@ intro: >
 
 # The three facts shown in the hero. Update "value" and "note" once confirmed.
 facts:
-  - label: When
-    value: "April 2027"
-    note: Exact dates to be announced
-  - label: Where
-    value: Harvard campus
-    note: Venue to be announced
   - label: Who
     value: Academics & Industry
     note: >
@@ -30,7 +24,12 @@ facts:
       working on, or thinking of working on, in these areas, and to draw on
       Harvard's intellectual capital, with the prospect of long-term
       collaboration.
-
+  - label: When
+    value: "April 2027"
+    note: Exact dates to be announced
+  - label: Where
+    value: Harvard campus
+    note: Venue to be announced
 # Partnering institutes, shown as a strip under the facts.
 # To add an institute, copy two lines (name, url) and edit them. "url" is
 # optional. "note" is the last, dashed entry; delete the "note" line once the
